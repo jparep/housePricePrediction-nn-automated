@@ -71,5 +71,7 @@ class HousePricePredictorClass:
     
     def categorical_features_transformer(self) -> Pipeline:
         return Pipeline(self[
-            ('imputer', )
+            ('imputer', SimpleImputer(strategy='most-frequent')),
+            ('encoder', OneHotEncoder(handle_unknown='ignore'))
         ])
+    
