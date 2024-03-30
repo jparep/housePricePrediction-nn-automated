@@ -139,4 +139,17 @@ class HousePricePredictorClass:
         if self.df is not None:
             # Define Features and target variables
             X, y = self.df.drop(['Id', 'SalePrice'], axis=1), self.df['SalePrice']
+            self.define_features() # Split Numerical and Categorical variables
+            preprocessor = self.preprocess_data() # Transform data
+            
+            # Split data to train and test datasets
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=myID)
+            # Fit and transform training dataset
+            X_train_preprocessed = preprocessor.fit_transform(X_train)
+            # Transform the test dataset with the same transformation
+            X_test_preprocessed = preprocessor.transform(X_test)
+            
+            # Train the model without Hyperparameter Tuning
+            
+            
             
