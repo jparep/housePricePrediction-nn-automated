@@ -132,7 +132,8 @@ class HousePricePredictorClass:
         y_pred = model.predict(X_test)
         mse = mean_square_error(y_test, y_pred)
         r2 = r2_score(y_test, y_pred)
-        return mse, r2
+        print(f"Mean Squared Error: {mse:.2f}")
+        print(f"R Squared: {r2:.2f}")
     
     def run(self):
         self.load_data()
@@ -150,6 +151,17 @@ class HousePricePredictorClass:
             X_test_preprocessed = preprocessor.transform(X_test)
             
             # Train the model without Hyperparameter Tuning
+            self.train_model(X_train_preprocessed, y_train, X_train_preprocessed.shape[1])
             
+            print(f"Model Evaluation Before hyperparameter Tuning: ")
+            self.evaluate_model() # Evaluate mdoel before Hyperparameter tunning
             
+            # Hyperparamater tuning model
+            self.hyperparameter_tuning(X_train_preprocessed, y_train, X_train_preprocessed.shape[1])
             
+            print(f"Model Evaluation After Hyperparameter Tuning: ")
+            self.evaluate_model() # Evaluate model afte Hyperparameter Tuning
+
+if __name__ == "__main__":
+    predictor = HousePricePredictorClass("../data/house_data.csv")
+    predictor.run()
