@@ -60,7 +60,7 @@ class HousePricePredictorClass:
     def define_features(self) -> type:
         if self.df is not None:
             self.num_cols = self.df.select_dtypes(include=['int64', 'float64']).columns.tolist()
-            self.cat_num = self.df.select_dtypes(include=['object']).columns.tolist()
+            self.cat_cols = self.df.select_dtypes(include=['object']).columns.tolist()
     
     def numerical_features_transformer(self) -> Pipeline:
         return Pipeline(steps=[
@@ -75,3 +75,8 @@ class HousePricePredictorClass:
             ('encoder', OneHotEncoder(handle_unknown='ignore'))
         ])
     
+    def preprocess_data(self) -> ColumnTransformer:
+        return ColumnTransformer(transformers=[
+            ('num', self.numerical_features_transformer(), self.num_cols),
+            ('cat', self.categorical_features_transformer(), self.cat_cols)                              
+        ])
