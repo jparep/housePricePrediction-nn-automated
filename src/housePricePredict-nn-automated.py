@@ -128,8 +128,15 @@ class HousePricePredictorClass:
         self.model_after_hyperTune = grid.best_estimator_
         self.best_params = grid.best_params_
         
-        def evaluate_model(self, model, X_test, y_test) -> None:
-            y_pred = model.predict(X_test)
-            mse = mean_square_error(y_test, y_pred)
-            r2 = r2_score(y_test, y_pred)
-            return mse, r2
+    def evaluate_model(self, model, X_test, y_test) -> None:
+        y_pred = model.predict(X_test)
+        mse = mean_square_error(y_test, y_pred)
+        r2 = r2_score(y_test, y_pred)
+        return mse, r2
+    
+    def run(self):
+        self.load_data()
+        if self.df is not None:
+            # Define Features and target variables
+            X, y = self.df.drop(['Id', 'SalePrice'], axis=1), self.df['SalePrice']
+            
