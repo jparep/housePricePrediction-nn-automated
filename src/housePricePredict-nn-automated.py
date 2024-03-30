@@ -90,7 +90,7 @@ class HousePricePredictorClass:
         model.compile(optimizer='adam', loss='mean_squared_error', matrics=['mean_squared_error'])
         return model
     
-    def train_model(self, X_train, y_train, input_shape) -> None:
+    def train_model(self, X_train, y_train, input_shape) -> KerasRegressor:
         self.model_before_hyperTune = KerasRegressor(
             model = self.create_model,
             model__inpute_shape = input_shape,
@@ -100,4 +100,18 @@ class HousePricePredictorClass:
         )
         
         self.model_before_hyperTune.fit(X_train, y_train)
+    
+    def hyperparameter_tuning(self, X_train, y_train, inpute_shape) -> RandomizedSearchCV:
+        model = KerasRegressor(
+            model  = self.create_model,
+            model__inpute_shape = inpute_shape,
+            verbose=0
+        )
+        
+        param_dist = {
+            'model__layers': [[128, 64], [64, 32]],
+            'batch_size': [32, 64],
+            'epochs': [30, 60]
+        }
+        
         
