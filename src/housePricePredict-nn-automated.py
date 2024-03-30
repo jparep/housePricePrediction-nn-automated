@@ -45,6 +45,7 @@ class HousePricePredictorClass:
         self.dataPath = dataPath
         self.model_before_hyperTune = None
         self.model_after_hyperTune = None
+        self.best_params = None
         self.df = None
     
     def load_data(self) -> pd.DataFrame:
@@ -114,4 +115,16 @@ class HousePricePredictorClass:
             'epochs': [30, 60]
         }
         
+        grid = RandomizedSearchCV(
+            estimator=model,
+            param_distributions=param_dist,
+            n_iter=12,
+            cv=5,
+            verbose=1,
+            n_jobs=-1,
+            random_state=myID
+        )
+        
+        self.model_after_hyperTune = grid.best_estimator_
+        self.best_params = grid.best_params_
         
