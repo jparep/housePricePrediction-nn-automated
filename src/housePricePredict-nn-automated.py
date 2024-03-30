@@ -80,3 +80,24 @@ class HousePricePredictorClass:
             ('num', self.numerical_features_transformer(), self.num_cols),
             ('cat', self.categorical_features_transformer(), self.cat_cols)                              
         ])
+    
+    def create_model(self, inpute_shape, layers=[128, 64]) -> Sequential:
+        model = Sequential([
+            Dense(layers[0], inpute_shape=(inpute_shape,), activation=LeakyReLU),
+            *[layer for size in layers[1:] for layer in (Dense(size, activation=LeakyReLU, Dropout=0.2))],
+            Dense(1, activation='linear')
+        ])
+        model.compile(optimizer='adam', loss='mean_squared_error', matrics=['mean_squared_error'])
+        return model
+    
+    def train_model(self, X_train, y_train, input_shape) -> None:
+        self.model_before_hyperTune = KerasRegressor(
+            model = self.create_model,
+            model__inpute_shape = input_shape,
+            epochs = 10,
+            batch_size = 32,
+            verbose = 0
+        )
+        
+        self.model_before_hyperTune.fit(X_train, y_train)
+        
