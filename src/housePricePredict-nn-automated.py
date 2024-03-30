@@ -56,4 +56,20 @@ class HousePricePredictorClass:
             print(f'Error parsing the file {self.dataPath}.')
         except Exception as e:
             print(f'An error occured while loading the data: {e}')
+
+    def define_features(self) -> type:
+        if self.df is not None:
+            self.num_cols = self.df.select_dtypes(include=['int64', 'float64']).columns.tolist()
+            self.cat_num = self.df.select_dtypes(include=['object']).columns.tolist()
     
+    def numerical_features_transformer(self) -> Pipeline:
+        return Pipeline(steps=[
+            ('outliers', OutlierHandlerClass()),
+            ('imputer', IterativeImputer(max_iter=10, random_state=myID)),
+            ('scaler', StandardScaler())
+        ])
+    
+    def categorical_features_transformer(self) -> Pipeline:
+        return Pipeline(self[
+            ('imputer', )
+        ])
