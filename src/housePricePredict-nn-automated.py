@@ -41,6 +41,19 @@ class OutlierHandlerClass(BaseEstimator, TransformerMixin):
     
 # House Price Predictor Class
 class HousePricePredictorClass:
-    def __init__(self) -> None:
-        
-
+    def __init__(self, dataPath) -> None:
+        self.dataPath = dataPath
+        self.model_before_hyperTune = None
+        self.model_after_hyperTune = None
+        self.df = None
+    
+    def load_data(self) -> pd.DataFrame:
+        try:
+            self.df = pd.read_csv(self.dataPath)
+        except FileNotFoundError:
+            print(f'The file {self.dataPath} was not found.')
+        except pd.errors.ParserError:
+            print(f'Error parsing the file {self.dataPath}.')
+        except Exception as e:
+            print(f'An error occured while loading the data: {e}')
+    
