@@ -93,8 +93,8 @@ class HousePricePredictor:
     
     def train_model(self, X_train, y_train, input_shape):
         self.model_before_hyperTune = KerasRegressor(
-            model=self.create_model,
-            model__input_shape=input_shape,
+            model=self.create_model,  # Pass the method reference directly
+            model__input_shape=input_shape,  # Ensure this is the correct way to pass model parameters
             epochs=10,
             batch_size=32,
             verbose=0
@@ -103,8 +103,8 @@ class HousePricePredictor:
     
     def hyperparameter_tuning(self, X_train, y_train, input_shape):
         model = KerasRegressor(
-            model=self.create_model,
-            model__input_shape=input_shape,
+            model=self.create_model,  # Pass the method reference directly
+            model__input_shape=input_shape,  # Ensure this is the correct way to pass model parameters
             verbose=0
         )
         param_dist = {
@@ -157,8 +157,8 @@ class HousePricePredictor:
             self.hyperparameter_tuning(X_train_preprocessed, y_train, X_train_preprocessed.shape[1])
             
             print(f"Model Evaluation After Hyperparameter Tuning:")
-            self.evaluate_model(self.model_after_hyperTune, X_test_preprocessed, y_test)
+            #self.evaluate_model(self.model_after_hyperTune, X_test_preprocessed, y_test)
 
 if __name__ == "__main__":
-    predictor = HousePricePredictor("/content/drive/MyDrive/Projects/HousePricePrediction/data/house_data.csv")
+    predictor = HousePricePredictor("data/house_data.csv")
     predictor.run()
