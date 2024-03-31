@@ -38,3 +38,21 @@ class OutlierHander(BaseEstimator, TransformerMixin):
             X[col] = X[col].clip(lower=self.lower_bound[col], upper=self.upper_bound[col])
         
         return X
+
+
+# House price predictor class
+class HousePricePredictor:
+    def __init__(self, config) -> None:
+        self.config = config
+        np.random.seed(config.random_seeed)
+    
+    def load_data(self):
+        logging.info(f"Loading data from {self.config.data_path}")
+        try:
+            df =pd.read_csv(self.config.data_path)
+            y = df.pop('SalePrice') if 'SalePrice' in df.columns else None
+            X = df.drop(['Id', 'SalePrice'], axis=1, inplace=True, errors='ignore')
+            return X, y
+        except Exception as e:
+            logging.error(f"Error loading the data: {e}")
+            return None, None
