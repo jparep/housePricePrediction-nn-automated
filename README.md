@@ -61,7 +61,7 @@ The dataset should be a CSV file with columns corresponding to house features an
 Specify the license under which the project is released, such as MIT, GPL, Apache 2.0, etc.
 
 ## Contributors
-- [Your Name](https://github.com/jparep)
+- [Joshua Parep](https://github.com/jparep)
 
 ## Acknowledgments
 List any contributors, data sources, or organizations that have supported this project.
