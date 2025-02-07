@@ -6,7 +6,7 @@ The House Price Predictor is a machine learning application designed to predict 
 ## Installation
 
 ### Prerequisites
-- Python 3.8+
+- Python 3.11+
 - NumPy
 - pandas
 - scikit-learn
